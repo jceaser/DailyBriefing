@@ -1,0 +1,22 @@
+<% # my_report.erb: %>
+<%= head_section "Work in Progress" %>
+
+<%= horizontal_star %>
+
+<%= text Time.now %>
+<%= text `cal` %>
+<%#= text `task` %>
+
+<%= item "First item" %>
+<%= item "Second item" %>
+<%= item "Third item" %>
+
+This is really really long text to test if the printer can wrap text around.
+
+first code
+<%= barcode8 "1234" %>
+
+second code
+<%= barcode13 "1234" %>
+
+<%= foot_section "No more text" %>
