@@ -2,7 +2,7 @@ require 'escpos'
 require_relative 'Segment'
 
 # my_report.rb:
-class RandomQuoteSegment < Segment
+class RandomQuote < Segment
 
     def readFile
         line_num=0

@@ -2,7 +2,7 @@ require 'escpos'
 require_relative 'Segment'
 
 # my_report.rb:
-class EvilSegment < Segment
+class Evil < Segment
     def segment_display
         edition = subscription_count
         [

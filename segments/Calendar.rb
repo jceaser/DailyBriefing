@@ -2,7 +2,7 @@ require 'escpos'
 require_relative 'Segment'
 
 # my_report.rb:
-class CalendarSegment < Segment
+class Calendar < Segment
     def segment_display
         [
             `cal`,

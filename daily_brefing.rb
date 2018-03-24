@@ -2,10 +2,10 @@
 
 require 'escpos'
 require_relative 'Printer58'
-require_relative 'segments/WeatherSegment'
-require_relative 'segments/CalendarSegment'
-require_relative 'segments/EvilSegment'
-require_relative 'segments/RandomQuoteSegment'
+require_relative 'segments/Weather'
+require_relative 'segments/Calendar'
+require_relative 'segments/Evil'
+require_relative 'segments/RandomQuote'
 require_relative 'segments/News'
 
 @printer = Escpos::Printer.new
@@ -21,7 +21,7 @@ require_relative 'segments/News'
 # using report class
 
 # my_report.rb:
-class MyReport < Printer58
+class DailyBrefing < Printer58
     def head_section(msg)
         quad_text "#{msg}"
     end
@@ -44,19 +44,19 @@ class MyReport < Printer58
         ].join
     end
     def calendar_segment
-        cs = CalendarSegment.new self
+        cs = Calendar.new self
         cs.display
     end
     def weather_segment
-        ws = WeatherSegment.new self
+        ws = Weather.new self
         ws.display
     end
     def evil_segment
-        es = EvilSegment.new self, {subscription:100}
+        es = Evil.new self, {subscription:100}
         es.display
     end
     def random_quote_segment
-        es = RandomQuoteSegment.new self
+        es = RandomQuote.new self
         es.display
     end
     def news_segment
