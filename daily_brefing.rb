@@ -1,7 +1,9 @@
 #!/usr/bin/env ruby
 
 require 'escpos'
+
 require_relative 'Printer58'
+require_relative 'Configuration'
 require_relative 'segments/Weather'
 require_relative 'segments/Calendar'
 require_relative 'segments/Evil'
@@ -22,6 +24,9 @@ require_relative 'segments/News'
 
 # my_report.rb:
 class DailyBrefing < Printer58
+    def configs
+        @configs = Configuration.new
+    end
     def head_section(msg)
         quad_text "#{msg}"
     end
@@ -38,34 +43,26 @@ class DailyBrefing < Printer58
     def foot_section(msg)
         [
             "-"*32,
-            "\r\n",
             msg,
-            "\r\neol\r\n"
+            "\nEOL\n"
         ].join
     end
-    def calendar_segment
-        cs = Calendar.new self
-        cs.display
+    
+    def load_segments
+        out = ""
+        configs().get[:segments].each {|c| out+=load_segment c[:name], c[:opt]}
+        out
     end
-    def weather_segment
-        ws = Weather.new self
-        ws.display
+    
+    def load_segment (name, opt={})
+        obj = Object.const_get name
+        seg = obj.new(self, opt)
+        seg.display
     end
-    def evil_segment
-        es = Evil.new self, {subscription:100}
-        es.display
-    end
-    def random_quote_segment
-        es = RandomQuote.new self
-        es.display
-    end
-    def news_segment
-        ns = News.new self
-        ns.display
-    end
+    
 end
 
-report = MyReport.new 'report2.erb'
+report = DailyBrefing.new 'daily_brefing.erb'
 @printer.write report.render
 @printer.write Escpos.sequence(Escpos::CTL_FF)
 @printer.write Escpos.sequence(Escpos::CTL_FF)

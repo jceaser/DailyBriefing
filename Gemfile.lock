@@ -32,6 +32,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  chunky_png
   escpos
   escpos-image
   feedjira

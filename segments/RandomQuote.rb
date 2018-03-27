@@ -29,5 +29,5 @@ class RandomQuote < Segment
     end
 end
 
-o = RandomQuoteSegment.new(nil)
-puts o.segment_display
+#o = RandomQuote.new(nil)
+#puts o.segment_display

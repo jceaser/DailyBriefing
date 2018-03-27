@@ -1,12 +1,8 @@
-<% # my_report.erb: %>
-<%= head_section "Daily Briefing" %>
+<% # daily_brefing.erb: %>
+<%= head_section "\nDaily Briefing" %>
 <%= horizontal_star %>
 <%= text Time.now %>
 
-<%= calendar_segment %>
-<%= random_quote_segment %>
-<%= weather_segment %>
-<%= evil_segment %>
-<%= news_segment %>
+<%= load_segments %>
 
-<%= foot_section "No more text" %>
+<%= foot_section "\nNo more text" %>
