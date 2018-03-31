@@ -4,7 +4,7 @@
 class Segment
     def initialize(p, opt={})
         @printer = p
-        @options = opt
+        @options = if opt != nil then opt else {} end
     end
     def display
         [
@@ -21,4 +21,5 @@ class Segment
     def subscription_count
         rand(1..100)
     end
+
 end

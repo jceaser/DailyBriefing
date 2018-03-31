@@ -12,7 +12,7 @@ class Printer58 < Escpos::Report
         text data*32
     end
     def horizontal_line
-        text "_"*32 
+        text "_"*32
     end
     def horizontal_dash
         text "-"*32
