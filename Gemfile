@@ -12,3 +12,4 @@ gem 'nokogiri'
 
 gem 'rake'
 gem 'bundler'
+gem 'minitest'

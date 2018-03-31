@@ -9,11 +9,15 @@ require_relative 'Rss'
 class Face < Segment
     :normal
     :sad
-
+    
     def initialize(p, opt={})
         super p, opt
         @hair_length = rand(0..5)
         @style = :happy
+    end
+    
+    def hair_length= (val)
+        @hair_length = val
     end
     
     def  hair_top (row=0)
