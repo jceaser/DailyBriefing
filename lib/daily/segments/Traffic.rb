@@ -1,12 +1,29 @@
-#require 'escpos'
+#require '../Kernalish'
+#require "Kernelish"
+
+module Daily
+module Segments
+
+module Kernel
+    def silence_warnings
+        with_warnings(nil) { yield }
+    end
+
+    def with_warnings(flag)
+        old_verbose, $VERBOSE = $VERBOSE, flag
+        yield
+        ensure
+        $VERBOSE = old_verbose
+    end
+end unless Kernel.respond_to? :silence_warnings
+
 require "HTTParty"
-require 'feedjira'
+Kernel.silence_warnings do require 'feedjira' end
 require_relative 'Rss'
 require 'escpos/Helpers'
 
 require 'nokogiri'
 
-# my_report.rb:
 class Traffic < Rss
     
     include Escpos::Helpers
@@ -35,9 +52,9 @@ class Traffic < Rss
     end
     
     def titles_all()
-        #@url = @url1
+        @url_rss = @url
         out = titles()
-        #@url = @url2
+        #@url_rss = @url2
         #loadTitles()
         #out += titles()
         out
@@ -76,3 +93,5 @@ class Traffic < Rss
     end
 end
 
+end
+end

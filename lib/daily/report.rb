@@ -14,7 +14,7 @@ require 'escpos'
 
 # using report class
 
-# my_report.rb:
+module Daily
 class MyReport < Escpos::Report
     def head_section(msg)
         quad_text "#{msg}"
@@ -86,8 +86,8 @@ class MyReport < Escpos::Report
         [code,"\r\n"].join
    end
 end
-
-report = MyReport.new 'report.erb'
+end
+report = Daily::MyReport.new 'report.erb'
 @printer.write report.render
 @printer.write Escpos.sequence(Escpos::CTL_FF)
 @printer.write Escpos.sequence(Escpos::CTL_FF)

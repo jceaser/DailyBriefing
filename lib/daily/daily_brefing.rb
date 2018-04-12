@@ -5,16 +5,20 @@ require 'escpos'
 require_relative 'Configuration'
 require_relative 'Printer58'
 require_relative 'segments/Calendar'
+require_relative 'segments/CountTo'
 require_relative 'segments/Evil'
 require_relative 'segments/Face'
 require_relative 'segments/News'
 require_relative 'segments/RandomQuote'
 require_relative 'segments/Traffic'
 require_relative 'segments/UList'
+require_relative 'segments/UnixTips'
 require_relative 'segments/Weather'
+require_relative 'segments/WikiToday'
 
 @printer = Escpos::Printer.new
 
+module Daily
 class DailyBrefing < Printer58
     def configs
         @configs = Configuration.new
@@ -33,7 +37,7 @@ class DailyBrefing < Printer58
 #         text "#{@l_count}. #{text}"
 #     end
     def foot_section(msg="")
-        face = Face.new(self, {})
+        face = Daily::Segments::Face.new(self, {})
         
         [
             "-"*32, "\n", 
@@ -45,19 +49,25 @@ class DailyBrefing < Printer58
     
     def load_segments
         out = ""
-        configs().get[:segments].each {|c| out+=load_segment c[:name], c[:opt]}
+        
+        configs().get["segments"].each { |c|
+            obj_name = "Daily::Segments::#{c['name']}"
+            opt = c['opt']
+            out += load_segment obj_name, opt
+        }
         out
     end
     
     def load_segment (name, opt={})
+        if opt==nil then opt = {} end
         obj = Object.const_get name
         seg = obj.new(self, opt)
         seg.display
     end
     
 end
-
-report = DailyBrefing.new 'daily_brefing.erb'
+end
+report = Daily::DailyBrefing.new 'daily_brefing.erb'
 @printer.write report.render
 @printer.write Escpos.sequence(Escpos::CTL_FF)
 @printer.write Escpos.sequence(Escpos::CTL_FF)

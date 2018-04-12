@@ -1,6 +1,9 @@
 require 'minitest/autorun'
-require_relative '../../../../lib/daily/segments/Face.rb'
- 
+require_relative '../../../../lib/daily/segments/Face'
+
+module Daily
+module Segments
+
 describe Face do
     before do
         @face = Face.new("daily_brefing.erb", {})
@@ -18,4 +21,7 @@ describe Face do
         end
     end
 
+end
+
+end
 end

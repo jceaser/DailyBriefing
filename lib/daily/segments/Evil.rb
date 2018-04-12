@@ -1,7 +1,8 @@
 require 'escpos'
 require_relative 'Segment'
 
-# my_report.rb:
+module Daily
+module Segments
 class Evil < Segment
 
     def segment_display
@@ -18,4 +19,7 @@ class Evil < Segment
             text,
         ].join
     end
+end
+
+end
 end

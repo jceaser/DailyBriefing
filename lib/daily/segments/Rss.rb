@@ -1,19 +1,34 @@
-#require 'escpos'
+
+module Kernel
+    def silence_warnings
+        with_warnings(nil) { yield }
+    end
+
+    def with_warnings(flag)
+        old_verbose, $VERBOSE = $VERBOSE, flag
+        yield
+        ensure
+        $VERBOSE = old_verbose
+    end
+end unless Kernel.respond_to? :silence_warnings
+
 require "HTTParty"
-require 'feedjira'
+
+Kernel.silence_warnings do require 'feedjira' end
 require_relative 'Segment'
 
+module Daily
+module Segments
 
-# my_report.rb:
 class Rss < Segment
-    attr_accessor :url
+    attr_accessor :url_rss
     attr_accessor :title_count
 
     def initialize(p, opt={})
         super p, opt
         
-        @url = @options[:url]
-        #raise ArgumentError.new("must supply a URL") if @url==nil
+        @url_rss = @options['url']
+        #raise ArgumentError.new("must supply a URL") if @url_rss==nil
         
         @title_count = 5
         
@@ -21,7 +36,7 @@ class Rss < Segment
     end
     
     def loadTitles()
-        @feed = Feedjira::Feed.fetch_and_parse @url
+        @feed = Feedjira::Feed.fetch_and_parse @url_rss
         @title = @feed.title
     end
     
@@ -47,6 +62,9 @@ end
 if __FILE__ == $0
     require_relative '../Printer58'
     printer = Printer58.new 'daily_brefing.erb'
-    rss = Rss.new(printer, {:url=>ARGV[0]})
+    rss = Rss.new(printer, {'url'=>ARGV[0]})
     puts rss.display
+end
+
+end
 end

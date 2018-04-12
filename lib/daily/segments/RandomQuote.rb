@@ -1,13 +1,13 @@
 require 'escpos'
 require_relative 'Segment'
 
-# my_report.rb:
+module Daily
+module Segments
 class RandomQuote < Segment
-
+    include Escpos::Helpers
     def readFile
-        line_num=0
         lines_of_interest = []
-        File.open('segments/quotes.md').each do |raw_line|
+        File.open('lib/daily/segments/quotes.md').each do |raw_line|
             line = raw_line.strip
             if line.start_with? "*"
                 lines_of_interest += [line.replace(line[2..-1])]
@@ -24,9 +24,13 @@ class RandomQuote < Segment
     
     def segment_display
         [
+            title("## Quotes ##\n"),
             randomFromFile
-        ].sample
+        ]
     end
+end
+
+end
 end
 
 #o = RandomQuote.new(nil)

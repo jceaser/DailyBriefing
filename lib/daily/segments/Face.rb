@@ -1,14 +1,28 @@
-#require 'escpos'
+
+module Kernel
+    def silence_warnings
+        with_warnings(nil) { yield }
+    end
+
+    def with_warnings(flag)
+        old_verbose, $VERBOSE = $VERBOSE, flag
+        yield
+        ensure
+        $VERBOSE = old_verbose
+    end
+end unless Kernel.respond_to? :silence_warnings
+
+Kernel.silence_warnings do require 'feedjira' end
 require "HTTParty"
-require 'feedjira'
 require_relative 'Segment'
 require_relative 'Rss'
 
+module Daily
+module Segments
 
-# my_report.rb:
 class Face < Segment
-    :normal
-    :sad
+    #:happy
+    #:sad
     
     def initialize(p, opt={})
         super p, opt
@@ -16,11 +30,11 @@ class Face < Segment
         @style = :happy
     end
     
-    def hair_length= (val)
+    def hair_length= val
         @hair_length = val
     end
     
-    def  hair_top (row=0)
+    def  hair_top row=0
         [
             lt, "*/*/*/*", rt, "\n",
         ].join
@@ -34,11 +48,11 @@ class Face < Segment
         " \\"
     end
 
-    def l (row=0)
+    def l row=0
         if row<@hair_length then "# " else "  " end
     end
     
-    def r (row=0)
+    def r row=0
         if row<@hair_length then " #" else "  " end
     end
     
@@ -71,4 +85,7 @@ class Face < Segment
         end
         out.join
     end
+end
+
+end
 end

@@ -21,3 +21,7 @@ execute the report2.rb file and pipe it to your printer as so:
 `ruby report2.rb | lp -d CATEX_TECH__POS5890U -`
 
 [logo]: ./docs/daily_briefing.jpg "Your Daily Briefing in thermal color"
+
+## Code ##
+
+* [MiniTest](http://ruby-doc.org/stdlib-2.0.0/libdoc/minitest/rdoc/MiniTest.html)

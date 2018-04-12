@@ -1,6 +1,6 @@
 require 'escpos'
 
-# my_report.rb:
+module Daily
 class Printer58 < Escpos::Report
 #     def horizontal_line
 #         text "________________________________"
@@ -55,4 +55,5 @@ class Printer58 < Escpos::Report
         code = barcode data
         [code,"\r\n"].join
    end
+end
 end
